@@ -1,5 +1,5 @@
 {% set name = "sentry-sdk" %}
-{% set version = "1.9.2" %}
+{% set version = "1.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,21 +7,21 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 9921e76e29135aa1fa65fe231aaaef47355f85470c5ec59ce32715e22e6340b6
+  sha256: f185c53496d79b280fe5d9d21e6572aee1ab802d3354eb12314d216cfbaa8d30
 
 build:
-  noarch: python
   number: 0
   script: {{ PYTHON }} -m pip install . -vvv
+  skip: True  # [py<30]
 
 requirements:
   host:
-    # The package works on python 2, but the aiohttp integration
-    # doesn't. Avoid syntax errors in install by building on 3.
-    - python >=3
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=3
+    - python
     - urllib3 >=1.10
     - certifi
 
