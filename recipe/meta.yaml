@@ -1,28 +1,27 @@
 {% set name = "sentry-sdk" %}
-{% set version = "1.9.0" %}
+{% set version = "1.45.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f185c53496d79b280fe5d9d21e6572aee1ab802d3354eb12314d216cfbaa8d30
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/sentry-sdk-{{ version }}.tar.gz
+  sha256: 509aa9678c0512344ca886281766c2e538682f8acfa50fd8d405f8c417ad0625
 
 build:
+  noarch: python
+  skip: True # [not linux64]
+  script: {{ PYTHON }} -m pip install . -vv
   number: 0
-  script: {{ PYTHON }} -m pip install . -vvv
-  skip: True  # [py<30]
 
 requirements:
   host:
-    - python
+    - python >=3.7
     - pip
-    - setuptools
-    - wheel
   run:
-    - python
-    - urllib3 >=1.10
+    - python >=3.7
+    - urllib3 >=1.25.7
     - certifi
 
 test:
@@ -35,17 +34,25 @@ test:
 
 about:
   home: https://github.com/getsentry/sentry-python
-  license: BSD-2-Clause
-  license_family: BSD
+  license: MIT
+  license_family: MIT
   license_file: LICENSE
-  summary: The new Python SDK for Sentry.io
+  summary: The official Python SDK for Sentry.io
   description: |
-    The new Python SDK for Sentry.io
-  doc_url: https://docs.sentry.io/quickstart/?platform=python
+    The official Python SDK for Sentry.io 
+  doc_url: https://docs.sentry.io/platforms/python/
   dev_url: https://github.com/getsentry/sentry-python
 
 extra:
+  skip-lints:
+    - avoid_noarch    # Only if building a noarch package
+  anaconda-services:
+    recipe-maintainers:
+       - bkreider
+    comment: "Dependency for deepeval requested from https://anaconda.zendesk.com/agent/tickets/53943"
+
   recipe-maintainers:
+    - rxm7706
     - alippai
     - dgasmith
     - djsutherland
