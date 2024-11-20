@@ -1,5 +1,5 @@
 {% set name = "sentry-sdk" %}
-{% set version = "1.9.0" %}
+{% set version = "2.18.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f185c53496d79b280fe5d9d21e6572aee1ab802d3354eb12314d216cfbaa8d30
+  sha256: 0dc21febd1ab35c648391c664df96f5f79fb0d92d7d4225cd9832e53a617cafd
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vvv
-  skip: True  # [py<30]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
+  skip: True  # [py<36]
 
 requirements:
   host:
@@ -22,8 +22,45 @@ requirements:
     - wheel
   run:
     - python
-    - urllib3 >=1.10
+    - urllib3 >=1.26.11
     - certifi
+  run_constrained:
+    - aiohttp >=3.5 # extra:aiohttp
+    - anthropic >=0.16 # extra:anthropic
+    - arq >=0.23 # extra:arq
+    - asyncpg >=0.23 # extra:asyncpg
+    - apache-beam >=2.12 # extra:beam
+    - bottle >=0.12.13 # extra:bottle
+    - celery >=3 # extra:celery
+    - chalice >=1.16.0 # extra:chalice
+    - clickhouse-driver >=0.2.0 # extra:clickhouse-driver
+    - django >=1.8 # extra:django
+    - falcon >=1.4 # extra:falcon
+    - fastapi >=0.79.0 # extra:fastapi
+    - flask >=0.11 # extra:flask
+    - blinker >=1.1 # extra:flask
+    - grpcio >=1.21.1 # extra:grpcio
+    - protobuf >=3.8.0 # extra:grpcio
+    - httpcore ==1.* # extra:http2
+    - httpx >=0.16.0 # extra:httpx
+    - huey >=2 # extra:huey
+    - huggingface_hub >=0.22 # extra:hub
+    - langchain >=0.0.210 # extra:langchain
+    - launchdarkly-server-sdk >=9.8.0 # extra:launchdarkly
+    - loguru >=0.5 # extra:loguru
+    - openai >=1.0.0 # extra:openai
+    - tiktoken >=0.3.0 # extra:openai
+    - openfeature-sdk >=0.7.1 # extra:openfeature
+    - opentelemetry-distro >=0.35b0 # extra:opentelemetry
+    - pymongo >=3.1 # extra:pymongo
+    - pyspark >=2.4.4 # extra:pyspark
+    - quart >=0.16.1 # extra:quart
+    - rq >=0.6 # extra:rq
+    - sanic >=0.8 # extra:sanic
+    - sqlalchemy >=1.2 # extra:sqlalchemy
+    - starlette >=0.19.1 # extra:starlette
+    - starlite >=1.48 # extra:starlite
+    - tornado >=6 # extra:tornado
 
 test:
   requires:
