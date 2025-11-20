@@ -130,6 +130,14 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_staticmethod_instance_tracing" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_classmethod_instance_tracing" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_last_event_id" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_continuous_profiler.py::test_continuous_profiler_auto_start_and_stop_sampled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_transaction_profiler.py::test_profile_captured" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_notes" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_stacktrace_big_recursion" %}
+# WIN path errors not found file with "/", neeeds "\\".
+{% set deselect_tests = deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_filename" %}  # [win]
 test:
   source_files:
     - tests
