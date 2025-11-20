@@ -1,13 +1,13 @@
 {% set name = "sentry-sdk" %}
-{% set version = "2.18.0" %}
+{% set version = "2.45.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/sentry_sdk-{{ version }}.tar.gz
-  sha256: 0dc21febd1ab35c648391c664df96f5f79fb0d92d7d4225cd9832e53a617cafd
+  url: https://github.com/get{{ name.split('-')[0] }}/{{ name.split('-')[0] }}-python/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 1d4bacf1adf0ed7353f746e422a48c4f027fad6b048d76f8a7a6fb001aea2fb6
 
 build:
   number: 0
@@ -32,6 +32,7 @@ requirements:
     - apache-beam >=2.12 # extra:beam
     - bottle >=0.12.13 # extra:bottle
     - celery >=3 # extra:celery
+    - celery-redbeat >=2 # extra:celery-redbeat
     - chalice >=1.16.0 # extra:chalice
     - clickhouse-driver >=0.2.0 # extra:clickhouse-driver
     - django >=1.8 # extra:django
@@ -39,6 +40,7 @@ requirements:
     - fastapi >=0.79.0 # extra:fastapi
     - flask >=0.11 # extra:flask
     - blinker >=1.1 # extra:flask
+    - markupsafe # extra:flask
     - grpcio >=1.21.1 # extra:grpcio
     - protobuf >=3.8.0 # extra:grpcio
     - httpcore ==1.* # extra:http2
@@ -46,29 +48,107 @@ requirements:
     - huey >=2 # extra:huey
     - huggingface_hub >=0.22 # extra:hub
     - langchain >=0.0.210 # extra:langchain
+    - langgraph>=0.6.6 # extra:langgraph
     - launchdarkly-server-sdk >=9.8.0 # extra:launchdarkly
+    - litellm >=1.77.5 # extra:litellm
+    - litestar >=2.0.0 # extra:litestar
+    - mcp >=1.15.0 # extra:mcp
     - loguru >=0.5 # extra:loguru
     - openai >=1.0.0 # extra:openai
     - tiktoken >=0.3.0 # extra:openai
     - openfeature-sdk >=0.7.1 # extra:openfeature
-    - opentelemetry-distro >=0.35b0 # extra:opentelemetry
+    - opentelemetry-distro >=0.35b0 # extra:opentelemetry,opentelemetry-otlp
     - pymongo >=3.1 # extra:pymongo
     - pyspark >=2.4.4 # extra:pyspark
     - quart >=0.16.1 # extra:quart
+    - blinker >=1.1 # extra:blinker
     - rq >=0.6 # extra:rq
     - sanic >=0.8 # extra:sanic
     - sqlalchemy >=1.2 # extra:sqlalchemy
     - starlette >=0.19.1 # extra:starlette
     - starlite >=1.48 # extra:starlite
     - tornado >=6 # extra:tornado
+    - unleashclient >=6.0.1 # extra:unleash
+    - google-genai >=1.29.0 # extra:google-genai
 
+# Need to test only the pkg directly, not dependencies which can possibly use this pkg.
+{% set ignore_tests = " --ignore=tests/integrations" %}
+# >   assert len(envelopes) == 1
+# E   assert 0 == 1
+# E    +  where 0 = len([])
+{% set deselect_tests = " --deselect=tests/test_dsc.py::test_dsc_issue" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_with_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_twp" %}
+# >   raise AssertionError("1 logs was never flushed after 10 seconds")
+# E   AssertionError: 1 logs was never flushed after 10 seconds
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_100" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_log_user_attributes" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_5s" %}
+# >   assert Scope.last_event_id() is not None
+# E   assert None is not None
+# E    +  where None = last_event_id()
+# E    +    where last_event_id = Scope.last_event_id
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_merging" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_last_event_id" %}
+# >   (event,) = events
+# E   ValueError: not enough values to unpack (expected 1, got 0)
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_default" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_enabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_sessions.py::test_basic" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_sessions.py::test_aggregates" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_feature_flags.py::test_featureflags_integration" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_spotlight.py::test_spotlight_envelope" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_utils.py::test_default_release" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_stack_var_scrubbing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_breadcrumb_extra_scrubbing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_custom_denylist" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_scrubbing_doesnt_affect_local_vars" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_recursive_scrubber_does_not_override_original" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_socks_proxy" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_ignore_errors" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_local_variables_enabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_local_variables_disabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_source_context_enabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_source_context_disabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_function_names" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_nan" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_cyclic_frame_vars" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_databag_depth_stripping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_databag_string_stripping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_databag_breadth_stripping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_chained_exceptions" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_broken_mapping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_mapping_sends_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_object_sends_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_errno_errors" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_non_string_variables" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_dict_changed_during_iteration" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_custom_repr_on_vars" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_error_sampler" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_dedupe_event_processor_drop_records_client_report" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_dedupe_doesnt_take_into_account_dropped_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_staticmethod_instance_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_classmethod_instance_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_last_event_id" %}
 test:
-  requires:
-    - pip
+  source_files:
+    - tests
   imports:
     - sentry_sdk
   commands:
     - pip check
+    - python -m pytest -v tests {{ ignore_tests }} {{ deselect_tests }}
+  requires:
+    - pip
+    - pytest >=6.0.0
+    - brotli-python
+    - pytest-localserver
+    - jsonschema
+    - pytest-asyncio
+    - executing
+    - httpcore
+    - httpx
+    - h2
 
 about:
   home: https://github.com/getsentry/sentry-python
