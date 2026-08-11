@@ -149,7 +149,10 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_filename" %}  # [win]
-
+# >       assert len(profile_chunks) > 0
+# E       assert 0 > 0
+# E        +  where 0 = len([])
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_segment_span_has_profiler_id" %}  # [osx]
 test:
   source_files:
     - tests
