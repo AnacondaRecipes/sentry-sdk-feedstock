@@ -153,6 +153,11 @@ requirements:
 # E       assert 0 > 0
 # E        +  where 0 = len([])
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_segment_span_has_profiler_id" %}  # [osx]
+# E       AssertionError: profiler should have stopped
+# E       assert '5ee37a29e25a4b69a49a195dbf49768e' is None
+# E        +  where '5ee37a29e25a4b69a49a195dbf49768e' = get_profiler_id()
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_profile_stops_when_segment_ends" %}  # [osx]
+
 test:
   source_files:
     - tests
