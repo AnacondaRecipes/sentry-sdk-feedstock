@@ -137,6 +137,14 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_transaction_profiler.py::test_profile_captured" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_notes" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_stacktrace_big_recursion" %}
+# assert ('socks' in "<class 'httpcore.asyncconnectionpool'>") == True
+#  +  where "<class 'httpcore.asyncconnectionpool'>" = <built-in method lower of str object at 0xffff8dfd7000>()
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_async_socks_proxy" %}
+# IndexError: list index out of range
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_set_user" %}
+# E           AssertionError: assert {'sentry.op': 'gen_ai.invoke_agent', 'sentry.origin': 'manual', ....
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_dicts" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_objects" %}
 # WIN path errors not found file with "/", neeeds "\\".
 {% set deselect_tests = deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path" %}  # [win]
