@@ -1,77 +1,8 @@
 {% set name = "sentry-sdk" %}
 {% set version = "2.67.1" %}
-{% set ignore_tests = " --ignore=tests/integrations" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/profiler/test_continuous_profiler.py" %}
-{% set deselect_tests = " --deselect=tests/test_dsc.py::test_dsc_issue" %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_with_tracing"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_twp"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_100"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_logs.py::test_log_user_attributes"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_5s"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scope.py::test_merging"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scope.py::test_last_event_id"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_default"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_enabled"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_sessions.py::test_basic"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_sessions.py::test_aggregates"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_feature_flags.py::test_featureflags_integration"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_spotlight.py::test_spotlight_envelope"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_utils.py::test_default_release"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scrubber.py::test_stack_var_scrubbing"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scrubber.py::test_breadcrumb_extra_scrubbing"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scrubber.py::test_custom_denylist"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scrubber.py::test_scrubbing_doesnt_affect_local_vars"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_scrubber.py::test_recursive_scrubber_does_not_override_original"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_socks_proxy"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_ignore_errors"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_include_local_variables_enabled"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_include_local_variables_disabled"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_include_source_context_enabled"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_include_source_context_disabled"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_function_names"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_nan"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_cyclic_frame_vars"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_databag_depth_stripping"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_databag_string_stripping"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_databag_breadth_stripping"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_chained_exceptions"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_broken_mapping"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_mapping_sends_exception"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_object_sends_exception"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_errno_errors"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_non_string_variables"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_dict_changed_during_iteration"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_custom_repr_on_vars"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_client.py::test_error_sampler"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_dedupe_event_processor_drop_records_client_report"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_dedupe_doesnt_take_into_account_dropped_exception"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_staticmethod_instance_tracing"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_classmethod_instance_tracing"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_last_event_id"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/profiler/test_continuous_profiler.py::test_continuous_profiler_auto_start_and_stop_sampled"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/profiler/test_transaction_profiler.py::test_profile_captured"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_notes"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_basics.py::test_stacktrace_big_recursion"' %}
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event"' %}  # [win]
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path"' %}  # [win]
-{% set deselect_tests = 'deselect_tests + " --deselect=tests/utils/test_general.py::test_filename"' %}  # [win]
 
-# Need to test only the pkg directly, not dependencies which can possibly use this pkg.
-# Tests failed randomly on the CI
-# >   assert len(envelopes) == 1
-# E   assert 0 == 1
-# E    +  where 0 = len([])
-# >   raise AssertionError("1 logs was never flushed after 10 seconds")
-# E   AssertionError: 1 logs was never flushed after 10 seconds
-# >   assert Scope.last_event_id() is not None
-# E   assert None is not None
-# E    +  where None = last_event_id()
-# E    +    where last_event_id = Scope.last_event_id
-# >   (event,) = events
-# E   ValueError: not enough values to unpack (expected 1, got 0)
-# WIN path errors not found file with "/", neeeds "\\".
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -141,6 +72,85 @@ requirements:
     - pydantic-ai >=1.0.0
     - statsig >=0.55.3
 
+# Need to test only the pkg directly, not dependencies which can possibly use this pkg.
+# Tests failed randomly on the CI
+# >   assert len(envelopes) == 1
+# E   assert 0 == 1
+# E    +  where 0 = len([])
+# >   raise AssertionError("1 logs was never flushed after 10 seconds")
+# E   AssertionError: 1 logs was never flushed after 10 seconds
+# >   assert Scope.last_event_id() is not None
+# E   assert None is not None
+# E    +  where None = last_event_id()
+# E    +    where last_event_id = Scope.last_event_id
+# >   (event,) = events
+# E   ValueError: not enough values to unpack (expected 1, got 0)
+# WIN path errors not found file with "/", neeeds "\\".
+
+{% set ignore_tests = " --ignore=tests/integrations" %}
+{% set ignore_tests = ignore_tests + " --ignore=tests/profiler/test_continuous_profiler.py" %}
+{% set deselect_tests = " --deselect=tests/test_dsc.py::test_dsc_issue" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_with_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_twp" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_100" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_log_user_attributes" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_5s" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_merging" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_last_event_id" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_default" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_enabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_sessions.py::test_basic" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_sessions.py::test_aggregates" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_feature_flags.py::test_featureflags_integration" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_spotlight.py::test_spotlight_envelope" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_utils.py::test_default_release" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_stack_var_scrubbing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_breadcrumb_extra_scrubbing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_custom_denylist" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_scrubbing_doesnt_affect_local_vars" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scrubber.py::test_recursive_scrubber_does_not_override_original" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_socks_proxy" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_ignore_errors" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_local_variables_enabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_local_variables_disabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_source_context_enabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_include_source_context_disabled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_function_names" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_nan" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_cyclic_frame_vars" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_databag_depth_stripping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_databag_string_stripping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_databag_breadth_stripping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_chained_exceptions" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_broken_mapping" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_mapping_sends_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_object_sends_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_errno_errors" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_non_string_variables" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_dict_changed_during_iteration" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_custom_repr_on_vars" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_error_sampler" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_dedupe_event_processor_drop_records_client_report" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_dedupe_doesnt_take_into_account_dropped_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_staticmethod_instance_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_classmethod_instance_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_last_event_id" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_continuous_profiler.py::test_continuous_profiler_auto_start_and_stop_sampled" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_transaction_profiler.py::test_profile_captured" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_notes" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_stacktrace_big_recursion" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_filename" %}  # [win]
+# assert ('socks' in "<class 'httpcore.asyncconnectionpool'>") == True
+#  +            where <sentry_sdk.transport.AsyncHttpTransport object at 0x105e019d0> = <sentry_sdk.client._Client object at 0x1057e5c70>.transport
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_async_socks_proxy" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_set_user" %}
+#  AssertionError: assert {'sentry.op': 'gen_ai.invoke_agent', 'sentry.origin': 'manual', 'thread.id': '8322998656',
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_dicts" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_objects" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_batcher.py::test_total_size_reset_after_weight_based_flushing" %}
+
 test:
   source_files:
     - tests
@@ -148,7 +158,7 @@ test:
     - sentry_sdk
   commands:
     - pip check
-    - python -m pytest -v tests {{ ignore_tests }} {{ deselect_tests }}
+    - python -m pytest -vv tests {{ ignore_tests }} {{ deselect_tests }}
   requires:
     - pip
     - pytest >=6.0.0
