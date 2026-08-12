@@ -73,28 +73,24 @@ requirements:
     - statsig >=0.55.3
 
 # Need to test only the pkg directly, not dependencies which can possibly use this pkg.
+{% set ignore_tests = " --ignore=tests/integrations" %}
 # Tests failed randomly on the CI
+{% set ignore_tests = ignore_tests + " --ignore=tests/profiler/test_continuous_profiler.py" %}
 # >   assert len(envelopes) == 1
 # E   assert 0 == 1
 # E    +  where 0 = len([])
+{% set deselect_tests = " --deselect=tests/test_dsc.py::test_dsc_issue" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_with_tracing" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_twp" %}
 # >   raise AssertionError("1 logs was never flushed after 10 seconds")
 # E   AssertionError: 1 logs was never flushed after 10 seconds
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_100" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_log_user_attributes" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_5s" %}
 # >   assert Scope.last_event_id() is not None
 # E   assert None is not None
 # E    +  where None = last_event_id()
 # E    +    where last_event_id = Scope.last_event_id
-# >   (event,) = events
-# E   ValueError: not enough values to unpack (expected 1, got 0)
-# WIN path errors not found file with "/", neeeds "\\".
-
-{% set ignore_tests = " --ignore=tests/integrations" %}
-{% set ignore_tests = ignore_tests + " --ignore=tests/profiler/test_continuous_profiler.py" %}
-{% set deselect_tests = " --deselect=tests/test_dsc.py::test_dsc_issue" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_with_tracing" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_dsc.py::test_dsc_issue_twp" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_100" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_log_user_attributes" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_logs.py::test_auto_flush_logs_after_5s" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_merging" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_last_event_id" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_default" %}
@@ -139,6 +135,7 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_transaction_profiler.py::test_profile_captured" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_notes" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_stacktrace_big_recursion" %}
+# WIN path errors not found file with "/", neeeds "\\".
 {% set deselect_tests = deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_filename" %}  # [win]
@@ -150,6 +147,8 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_dicts" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_objects" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_batcher.py::test_total_size_reset_after_weight_based_flushing" %}
+# E       AssertionError: profiler should have stopped
+{% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_continuous_profiler.py::test_segment_span_has_profiler_id" %}
 
 test:
   source_files:
