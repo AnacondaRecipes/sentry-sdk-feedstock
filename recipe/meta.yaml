@@ -57,6 +57,7 @@ requirements:
     - tiktoken >=0.3.0
     - openfeature-sdk >=0.7.1
     - opentelemetry-distro >=0.35b0
+    - pydantic-ai >=1.0.0
     - pymongo >=3.1
     - pyspark >=2.4.4
     - quart >=0.16.1
@@ -66,6 +67,7 @@ requirements:
     - sqlalchemy >=1.2
     - starlette >=0.19.1
     - starlite >=1.48
+    - statsig >=0.55.3
     - tornado >=6
     - UnleashClient >=6.0.1
     - google-genai >=1.29.0
@@ -149,7 +151,7 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_batcher.py::test_total_size_reset_after_weight_based_flushing" %}
 # E       AssertionError: profiler should have stopped
 {% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_continuous_profiler.py::test_segment_span_has_profiler_id" %}
-# >       assert len(profile_chunks) > 0
+# `>       assert len(profile_chunks) > 0
 # E       assert 0 > 0
 # E        +  where 0 = len([])
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_segment_span_has_profiler_id" %}  # [osx]
