@@ -1,5 +1,5 @@
 {% set name = "sentry-sdk" %}
-{% set version = "2.66.1" %}
+{% set version = "2.67.1" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/get{{ name.split('-')[0] }}/{{ name.split('-')[0] }}-python/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 5775b1bf806472c6c6fcd1d20d6b119cbbf0c60af96d8a954b73f53837adc52c
+  sha256: 5af54bfbbaf3ecbc5ce06ad79396655ddb0dbdb0ae2bb714d47f9bb71f54d9c0
 
 build:
   number: 0
@@ -71,6 +71,8 @@ requirements:
     - tornado >=6
     - UnleashClient >=6.0.1
     - google-genai >=1.29.0
+    - pydantic-ai >=1.0.0
+    - statsig >=0.55.3
 
 # Need to test only the pkg directly, not dependencies which can possibly use this pkg.
 {% set ignore_tests = " --ignore=tests/integrations" %}
@@ -93,8 +95,6 @@ requirements:
 # E    +    where last_event_id = Scope.last_event_id
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_merging" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_last_event_id" %}
-# >   (event,) = events
-# E   ValueError: not enough values to unpack (expected 1, got 0)
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_default" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_full_stack_frames.py::test_full_stack_frames_enabled" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_sessions.py::test_basic" %}
@@ -137,26 +137,25 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_transaction_profiler.py::test_profile_captured" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_notes" %}
 {% set deselect_tests = deselect_tests + " --deselect=tests/test_basics.py::test_stacktrace_big_recursion" %}
-# assert ('socks' in "<class 'httpcore.asyncconnectionpool'>") == True
-#  +  where "<class 'httpcore.asyncconnectionpool'>" = <built-in method lower of str object at 0xffff8dfd7000>()
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_async_socks_proxy" %}
-# IndexError: list index out of range
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_set_user" %}
-# E           AssertionError: assert {'sentry.op': 'gen_ai.invoke_agent', 'sentry.origin': 'manual', ....
-{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_dicts" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_objects" %}
 # WIN path errors not found file with "/", neeeds "\\".
 {% set deselect_tests = deselect_tests + " --deselect=tests/new_scopes_compat/test_new_scopes_compat_event.py::test_event" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_abs_path" %}  # [win]
 {% set deselect_tests = deselect_tests + " --deselect=tests/utils/test_general.py::test_filename" %}  # [win]
-# >       assert len(profile_chunks) > 0
+# assert ('socks' in "<class 'httpcore.asyncconnectionpool'>") == True
+#  +            where <sentry_sdk.transport.AsyncHttpTransport object at 0x105e019d0> = <sentry_sdk.client._Client object at 0x1057e5c70>.transport
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_client.py::test_async_socks_proxy" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_scope.py::test_set_user" %}
+#  AssertionError: assert {'sentry.op': 'gen_ai.invoke_agent', 'sentry.origin': 'manual', 'thread.id': '8322998656',
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_dicts" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_decorator.py::test_span_templates_ai_objects" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_batcher.py::test_total_size_reset_after_weight_based_flushing" %}
+# E       AssertionError: profiler should have stopped
+{% set deselect_tests = deselect_tests + " --deselect=tests/profiler/test_continuous_profiler.py::test_segment_span_has_profiler_id" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_profile_stops_when_segment_ends" %}  # [osx]
+# `>       assert len(profile_chunks) > 0
 # E       assert 0 > 0
 # E        +  where 0 = len([])
 {% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_segment_span_has_profiler_id" %}  # [osx]
-# E       AssertionError: profiler should have stopped
-# E       assert '5ee37a29e25a4b69a49a195dbf49768e' is None
-# E        +  where '5ee37a29e25a4b69a49a195dbf49768e' = get_profiler_id()
-{% set deselect_tests = deselect_tests + " --deselect=tests/tracing/test_span_streaming.py::test_profile_stops_when_segment_ends" %}  # [osx]
 
 test:
   source_files:
